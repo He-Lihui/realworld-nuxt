@@ -11,28 +11,33 @@
             <!-- <a class="nav-link active" href="">Home</a> -->
             <nuxt-link class="nav-link" to="/" exact>主页</nuxt-link>
           </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/editor">
-              <i class="ion-compose"></i>&nbsp;发布文章
-            </nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/settings">
-              <i class="ion-gear-a"></i>&nbsp;设置
-            </nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/login">登录</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/register">注册</nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link class="nav-link" to="/profile/1">
-              <img class="user-pic" src="" alt="">
-              userName
-            </nuxt-link>
-          </li>
+          <template v-if="user">
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/editor">
+                <i class="ion-compose"></i>&nbsp;发布文章
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/settings">
+                <i class="ion-gear-a"></i>&nbsp;设置
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/profile/1">
+                <img class="user-pic" :src="user.image" alt="">
+                {{ user.username }}
+              </nuxt-link>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/login">登录</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" to="/register">注册</nuxt-link>
+            </li>
+
+          </template>
         </ul>
       </div>
     </nav>
@@ -52,8 +57,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'LayoutIndex'
+  name: 'LayoutIndex',
+  computed: {
+    ...mapState(['user'])
+  }
 }
 </script>
 

@@ -57,7 +57,10 @@
 
 <script>
 import { login, register } from '@/api/user'
+// 只在客户端加载js-cookie包
+const Cookie= process.client ? require('js-cookie') : undefined
 export default {
+  middleware: ['notAuthenticated'],
   name: 'LoginIndex',
   computed: {
       isLogin () {
@@ -87,10 +90,14 @@ export default {
           user: this.user
         })
         // console.log(data)
+        // 保存登录状态
+        this.$store.commit('setUser', data.user)
 
+        // 防止刷新页面数据丢失  数据持久化
+        Cookie.set('user', data.user)
         this.$router.push('/')
       } catch (error) {
-        this.warn = true
+        // this.warn = true
         this.errors = error.response.data.errors
       }
     
