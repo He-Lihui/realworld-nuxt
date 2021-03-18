@@ -12,18 +12,37 @@
         </p>
 
         <ul class="error-messages">
-          <li>邮箱已经被占用啦</li>
+          <!-- <li v-show="warn"> 邮箱或者密码不正确</li> -->
+          <template v-for="(messages, field) in errors">
+            <li
+              v-for="(message, index) in messages"
+              :key="index"
+            >{{ field }} {{ message}}</li>
+
+          </template>
         </ul>
 
-        <form>
+        <form @submit.prevent="onSubmit">
           <fieldset v-if="!isLogin" class="form-group">
-            <input class="form-control form-control-lg" type="text" placeholder="Your Name">
+            <input 
+            v-model="user.username"
+            class="form-control form-control-lg" 
+            type="text" 
+            placeholder="Your Name" required>
           </fieldset>
           <fieldset class="form-group">
-            <input class="form-control form-control-lg" type="text" placeholder="Email">
+            <input 
+            v-model="user.email"
+            class="form-control form-control-lg" 
+            type="email" 
+            placeholder="Email" required>
           </fieldset>
           <fieldset class="form-group">
-            <input class="form-control form-control-lg" type="password" placeholder="Password">
+            <input 
+            v-model="user.password"
+            class="form-control form-control-lg" 
+            type="password" 
+            placeholder="Password" required minlength="8">
           </fieldset>
           <button class="btn btn-lg btn-primary pull-xs-right">
             {{ isLogin ? '登录' : '注册'}}
@@ -37,12 +56,45 @@
 </template>
 
 <script>
+import { login, register } from '@/api/user'
 export default {
   name: 'LoginIndex',
   computed: {
       isLogin () {
           return this.$route.name === 'login'
       }
+  },
+  data () {
+    return {
+      warn: false,
+      user: {
+        username: '',
+        email: '',
+        password: ''
+      },
+      errors: {}  // 保存错误信息
+    }
+  },
+  methods: {
+    async onSubmit () {
+      try {
+        // 提交表单请求登录
+        const { data } = this.isLogin
+        ? await login({
+          user: this.user
+        })
+        : await register({
+          user: this.user
+        })
+        // console.log(data)
+
+        this.$router.push('/')
+      } catch (error) {
+        this.warn = true
+        this.errors = error.response.data.errors
+      }
+    
+    }
   }
 }
 </script>

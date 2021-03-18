@@ -9,7 +9,7 @@
           <li class="nav-item">
             <!-- Add "active" class when you're on that page" -->
             <!-- <a class="nav-link active" href="">Home</a> -->
-            <nuxt-link class="nav-link active" to="/">主页</nuxt-link>
+            <nuxt-link class="nav-link" to="/" exact>主页</nuxt-link>
           </li>
           <li class="nav-item">
             <nuxt-link class="nav-link" to="/editor">
