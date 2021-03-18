@@ -1,0 +1,12 @@
+{
+  "name": "realworld-nuxt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nuxt"
+  },
+  "devDependencies": {
+    "nuxt": "^2.15.3"
+  }
+}
