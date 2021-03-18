@@ -13,7 +13,7 @@
                 <input type="text" class="form-control" placeholder="摘要">
             </fieldset>
             <fieldset class="form-group">
-                <textarea class="form-control" rows="8" placeholder=" 你有什么想说的都可以写在这里，当然你也可以使用的markdown方式~)"></textarea>
+                <textarea class="form-control" rows="8" placeholder=" 你有什么想说的都可以写在这里，当然你也可以使用markdown的方式~)"></textarea>
             </fieldset>
             <fieldset class="form-group">
                 <input type="text" class="form-control" placeholder="标签"><div class="tag-list"></div>
