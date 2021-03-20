@@ -36,7 +36,6 @@
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/register">注册</nuxt-link>
             </li>
-
           </template>
         </ul>
       </div>
@@ -62,7 +61,7 @@ export default {
   name: 'LayoutIndex',
   computed: {
     ...mapState(['user'])
-  }
+  },
 }
 </script>
 
