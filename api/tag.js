@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import {request} from '@/plugins/request'
+
 
 // 通过标签进行查询
 export const getTags = () => {
