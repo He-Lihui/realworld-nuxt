@@ -18,3 +18,19 @@ export const register = data => {
       data
     })
 }
+
+//用户更新
+export const updateUser = data => { 
+  return request({
+    method: 'PUT',
+    url:'/api/user',
+    data
+  })
+}
+//获取当前用户
+export const currentUser = () => { 
+  return request({
+    method: 'GET',
+    url:'/api/user',
+  })
+}
