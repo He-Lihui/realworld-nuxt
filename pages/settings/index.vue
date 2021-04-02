@@ -40,8 +40,11 @@
               <fieldset class="form-group">
                 <input class="form-control form-control-lg" type="password" placeholder="新密码">
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-outline-success pull-xs-right">
                 保存设置
+              </button>
+              <button class="btn btn-outline-danger" @click="logout">
+                      Or click here to logout.
               </button>
           </fieldset>
         </form>
@@ -53,6 +56,7 @@
 </template>
 
 <script>
+const Cookie= process.client ? require('js-cookie') : undefined
 import { updateUser, currentUser } from '@/api/user'
 export default {
   middleware: ['authenticated'],
@@ -76,6 +80,10 @@ export default {
         user: this.user
       })
        this.$router.push('/settings')
+    },
+    logout () {
+      Cookie.remove('user')
+      this.$router.push('/')
     }
   }
 }

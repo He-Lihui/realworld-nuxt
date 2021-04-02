@@ -16,16 +16,22 @@
         }">{{ article.author.username }}</nuxt-link>
           <span class="date">{{ article.createdAt | date('MMM DD, YYYY')}}</span>
         </div>
-        <button 
-          class="btn btn-sm btn-outline-secondary"
-          :class="{
-            active: article.author.following
-          }"
-        >
-          <i class="ion-plus-round"></i>
-          &nbsp;
-          Follow {{ article.author.username }} <span class="counter">(10)</span>
-        </button>
+        <template>
+           <button 
+            class="btn btn-sm btn-outline-secondary"
+            :class="{
+              active: article.author.following
+            }"
+          >
+            <i class="ion-plus-round"></i>
+            &nbsp;
+            Follow {{ article.author.username }} <span class="counter">(10)</span>
+          </button>
+            <a class="btn btn-outline-secondary btn-sm" ui-sref="app.editor({ slug: $ctrl.article.slug })" href="#/editor/test1-z60wog">
+              <i class="ion-edit"></i> Edit Article
+            </a>
+        </template>
+       
         &nbsp;&nbsp;
         <button 
           class="btn btn-sm btn-outline-primary"
@@ -48,7 +54,11 @@ export default {
       type: Object,
       required: true
     }
-    
+  },
+  data () {
+    return {
+      _article :[]
+    }
   }
 }
 </script>

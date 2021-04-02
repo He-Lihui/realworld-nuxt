@@ -11,11 +11,28 @@
           <p>
            {{ profile.bio}}
           </p>
-          <button class="btn btn-sm btn-outline-secondary action-btn">
-            <i class="ion-plus-round"></i>
-            &nbsp;
-            Follow {{profile.username }}
-          </button>
+            <template>
+              <button 
+              class="btn btn-sm btn-outline-secondary action-btn"
+              v-if="profile.following"
+              @click="follow(profile)"
+              :disabled='profile.followDisabled'
+              >
+                <i class="ion-plus-round"></i>
+                &nbsp;
+                UnFollow {{profile.username }}
+              </button>
+                <button 
+                class="btn btn-sm btn-outline-secondary action-btn"
+                v-else
+                @click="follow(profile)"
+                :disabled='profile.followDisabled'
+                >
+                <i class="ion-plus-round"></i>
+                &nbsp;
+                Follow {{profile.username }}
+              </button>
+            </template>
         </div>
 
       </div>
@@ -87,7 +104,7 @@
 </template>
 
 <script>
-import { getProfile } from '@/api/profiles'
+import { getProfile, getFollow, getUnFollow } from '@/api/profiles'
 export default {
   middleware: ['authenticated'],
   name: 'UserProfile',
@@ -98,8 +115,24 @@ export default {
     return {
       profile
     }
+  },
+  methods: {
+    async follow (profile) {
+      profile.followDisabled = true
+      console.log(profile)
+        if(profile.following){
+          // 取消关注
+          await getUnFollow(profile.username)
+            profile.following = false
+        } else {
+          // 关注
+          await getFollow(profile.username)
+          profile.following = true
+        }
+      profile.followDisabled = false
+      }
+    }
   }
-}
 </script>
 
 <style>
