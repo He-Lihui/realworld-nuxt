@@ -94,7 +94,7 @@ export default {
         this.$store.commit('setUser', data.user)
 
         // 防止刷新页面数据丢失  数据持久化
-        Cookie.set('user', data.user)
+        Cookie.set('user', data.user, { expires: 1})
         this.$router.push('/')
       } catch (error) {
         // this.warn = true
