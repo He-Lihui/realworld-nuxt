@@ -22,34 +22,37 @@
     
     <div 
     class="card"
-    v-for="comment in comments"
-    :key="comment.id"
+    v-for="item in comments"
+    :key="item.id"
     >
         <div class="card-block">
-        <p class="card-text">{{ comment.body}}</p>
+        <p class="card-text">{{ item.body}}</p>
         </div>
         <div class="card-footer">
         <nuxt-link :to="{
             name: 'profile',
             params: {
-                username: comment.author.username
+                username: item.author.username
             }
         }" class="comment-author">
-            <img :src="comment.author.image" />
+            <img :src="item.author.image" />
         </nuxt-link>
         &nbsp;
         <a href="" class="comment-author">Jacob Schmidt</a>
         <nuxt-link :to="{
             name: 'profile',
             params: {
-                username: comment.author.username
+                username: item.author.username
             }
         }" class="comment-author">
-            {{ comment.author.username}}
+            {{ item.author.username}}
         </nuxt-link>
-        <span class="date-posted">{{comment.createAt | date('MMM DD')}}</span>
+        <span class="date-posted">{{item.createAt | date('MMM DD')}}</span>
         <span class="mod-options" >
-              <i class="ion-trash-a"></i>
+              <i 
+                @click="delComments(item)"
+                class="ion-trash-a"
+              ></i>
         </span>
         </div>
     </div>
@@ -58,7 +61,7 @@
 </template>
 
 <script>
-import { getArticleComments, createArticleComments } from '@/api/article'
+import { getArticleComments, createArticleComments, delComment } from '@/api/article'
 export default {
   name: 'ArticleComment',
   props: {
@@ -69,7 +72,7 @@ export default {
   },
   data () {
       return {
-        comments: {},
+        comments: [],
         comment:{
           body : ''
         }
@@ -79,6 +82,7 @@ export default {
     //   获取评论
     const { data } = await getArticleComments(this.article.slug)
     console.log(data.comments)
+    console.log(this.article)
     this.comments = data.comments
   },
   methods: {
@@ -88,11 +92,21 @@ export default {
          await createArticleComments(this.article.slug, {
           comment: this.comment
         })
-
+        this.comment.author = this.article.author
+        this.comment.createdAt = new Date()
+        this.comment.updatedAt = new Date()
+        this.comment.id = this.comments[this.comments.length -1].id - 1
+        this.comments.unshift(this.comment)
       } catch (error) {
         console.log(error)
       }
      
+    },
+    delComments (item) {
+      console.log(item.id)
+        delComment(this.article.slug, item.id)
+        this.comments.shift(this.comment)
+
     }
   }
 }
