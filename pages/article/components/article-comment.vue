@@ -1,8 +1,16 @@
 <template>
   <div>
-    <form class="card comment-form">
+    <form 
+      class="card comment-form"
+      @submit.prevent="onSubComment"
+    >
         <div class="card-block">
-        <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+        <textarea 
+          class="form-control" 
+          placeholder="Write a comment..." 
+          rows="3"
+          v-model="comment.body"
+        ></textarea>
         </div>
         <div class="card-footer">
         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
@@ -40,6 +48,9 @@
             {{ comment.author.username}}
         </nuxt-link>
         <span class="date-posted">{{comment.createAt | date('MMM DD')}}</span>
+        <span class="mod-options" >
+              <i class="ion-trash-a"></i>
+        </span>
         </div>
     </div>
 
@@ -47,7 +58,7 @@
 </template>
 
 <script>
-import { getArticleComments } from '@/api/article'
+import { getArticleComments, createArticleComments } from '@/api/article'
 export default {
   name: 'ArticleComment',
   props: {
@@ -58,13 +69,31 @@ export default {
   },
   data () {
       return {
-        comments: []
+        comments: {},
+        comment:{
+          body : ''
+        }
       }
   },
   async mounted () {
+    //   获取评论
     const { data } = await getArticleComments(this.article.slug)
     console.log(data.comments)
     this.comments = data.comments
+  },
+  methods: {
+    async onSubComment() {
+      try {
+        // 发布评论
+         await createArticleComments(this.article.slug, {
+          comment: this.comment
+        })
+
+      } catch (error) {
+        console.log(error)
+      }
+     
+    }
   }
 }
 </script>

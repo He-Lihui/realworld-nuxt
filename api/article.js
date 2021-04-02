@@ -47,6 +47,16 @@ export const getArticleComments = slug => {
     url: `/api/articles/${slug}/comments`,
   })
 }
+
+
+// 发布评论
+export const createArticleComments = (slug, data) => {
+  return request ({
+    method: 'POST',
+    url: `/api/articles/${slug}/comments`,
+    data
+  })
+}
 // 发布文章
 
 export const createArticle = data => {

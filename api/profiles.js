@@ -7,3 +7,18 @@ export const getProfile = (username) => {
         url:`/api/profiles/${username}`
     })
 }
+
+// follow user
+export const getFollow = (username) => {
+    return request ({
+        method: 'POST',
+        url:`/api/profiles/${username}/follow`
+    })
+}
+// unfollow user 
+export const getUnFollow = (username) => {
+    return request ({
+        method: 'DELETE',
+        url:`/api/profiles/${username}/follow`
+    })
+}
